@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "chip8.h"
+#include "window.h"
+
+static const char *USAGE = "USAGE\n\t%s ROM_NAME\n";
 
 static void dump_help(const char *name)
 {
-	printf("USAGE\n\t%s ROM_NAME\n", name);
+	printf(USAGE, name);
 }
 
 int main(int ac, char **av)
@@ -13,5 +17,5 @@ int main(int ac, char **av)
 		dump_help(av[0]);
 		return EXIT_SUCCESS;
 	}
-	return EXIT_SUCCESS;
+	return chip8(av[1]);
 }
