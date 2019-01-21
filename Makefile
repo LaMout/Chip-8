@@ -8,6 +8,8 @@ SRC	=	src/main.c 				\
 		src/memory_dump.c		\
 		src/framebuffer.c		\
 		src/window.c			\
+		src/opcodes.c			\
+		src/handle_opcodes.c
 
 OBJ	=	$(SRC:.c=.o)
 
