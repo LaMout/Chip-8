@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "chip8.h"
-#include "window.h"
 
 static const char *USAGE = "USAGE\n\t%s ROM_NAME\n";
 
