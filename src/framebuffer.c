@@ -26,6 +26,23 @@ void free_framebuffer(framebuffer_t *framebuffer)
 	free(framebuffer);
 }
 
+void clear_framebuffer(framebuffer_t *framebuffer)
+{
+	for (uint16_t i = 0; i < WIDTH * HEIGHT * 4 ; ++i) {
+		framebuffer->pixels[i] = 0;
+	}
+}
+
+bool pixel_is_set(framebuffer_t *framebuffer, uint8_t x, uint8_t y)
+{
+	if (framebuffer->pixels[(framebuffer->width * y + x) * 4] == sfWhite.r
+		&& framebuffer->pixels[(framebuffer->width * y + x) * 4 + 1] == sfWhite.g
+		&& framebuffer->pixels[(framebuffer->width * y + x) * 4 + 2] == sfWhite.b
+		&& framebuffer->pixels[(framebuffer->width * y + x) * 4 + 3] == sfWhite.a)
+		return true;
+	return false;
+}
+
 void put_pixel(framebuffer_t *framebuffer, uint8_t x, uint8_t y, sfColor color)
 {
 	if (x <= framebuffer->width && y <= framebuffer->height) {
