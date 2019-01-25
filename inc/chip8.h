@@ -18,7 +18,7 @@ typedef struct cpu_s
 	uint8_t delay_timer;
 	uint8_t sound_timer;
 	uint16_t stack[STACK_SIZE];
-	uint16_t sp;
+	uint8_t sp;
 } cpu_t;
 
 bool cpu_initialize(cpu_t *cpu, const char *filename);

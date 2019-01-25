@@ -41,8 +41,10 @@ static const opcodes_t opcodes_g[NB_OPCODES] =
 bool handle_opcodes(cpu_t *cpu, window_t *window)
 {
 	for (uint8_t i = 0; i < NB_OPCODES ; ++i) {
-		if ((cpu->opcode & opcodes_g[i].mask) == opcodes_g[i].code)
+		if ((cpu->opcode & opcodes_g[i].mask) == opcodes_g[i].code) {
 			opcodes_g[i].opcode(cpu, window);
+			return true;
+		}
 	}
-	return true;
+	return false;
 }

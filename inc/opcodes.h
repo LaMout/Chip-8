@@ -16,6 +16,11 @@ typedef struct opcodes_s
 } opcodes_t;
 
 /*
+ * Handle Opcodes
+ */
+bool handle_opcodes(cpu_t *cpu, window_t *window);
+
+/*
  * Opcodes
  */
 void opcode_00E0(cpu_t *, window_t *);
