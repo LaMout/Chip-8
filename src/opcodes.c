@@ -7,7 +7,7 @@
 void opcode_00E0(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = 00E0 && pc = %d\n", cpu->pc);
-	framebuffer_clear(&window->framebuffer);
+	clear_framebuffer(&window->framebuffer);
 	cpu->pc += 2;
 }
 

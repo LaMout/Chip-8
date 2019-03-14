@@ -20,13 +20,13 @@ bool framebuffer_initialize(framebuffer_t *framebuffer)
 	return true;
 }
 
-void framebuffer_free(framebuffer_t *framebuffer)
+void free_framebuffer(framebuffer_t *framebuffer)
 {
 	free(framebuffer->pixels);
 	free(framebuffer);
 }
 
-void framebuffer_clear(framebuffer_t *framebuffer)
+void clear_framebuffer(framebuffer_t *framebuffer)
 {
 	for (uint16_t i = 0; i < WIDTH * HEIGHT * 4 ; ++i) {
 		framebuffer->pixels[i] = 0;
