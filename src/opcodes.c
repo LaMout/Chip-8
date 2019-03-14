@@ -32,8 +32,8 @@ void opcode_1NNN(cpu_t *cpu, window_t *window)
 void opcode_2NNN(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = 2NNN && pc = %d\n", cpu->pc);
-	cpu->stack[cpu->sp] = cpu->pc;
 	cpu->sp++;
+	cpu->stack[cpu->sp] = cpu->pc;
 	cpu->pc = cpu->opcode & 0x0FFF;
 	(void)window;
 }
@@ -72,7 +72,7 @@ void opcode_5XY0(cpu_t *cpu, window_t *window)
 void opcode_6XNN(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = 6XNN && pc = %d\n", cpu->pc);
-	cpu->V[(cpu->opcode & 0x0F00) >> 8] = (cpu->opcode & 0x00FF);
+	cpu->V[(cpu->opcode & 0x0F00) >> 8] = cpu->opcode & 0x00FF;
 	cpu->pc += 2;
 	(void)window;
 }
@@ -81,7 +81,7 @@ void opcode_6XNN(cpu_t *cpu, window_t *window)
 void opcode_7XNN(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = 7XNN && pc = %d\n", cpu->pc);
-	cpu->V[(cpu->opcode & 0x0F00) >> 8] += (cpu->opcode & 0x00FF);
+	cpu->V[(cpu->opcode & 0x0F00) >> 8] += cpu->opcode & 0x00FF;
 	cpu->pc += 2;
 	(void)window;
 }
@@ -152,7 +152,7 @@ void opcode_8XY5(cpu_t *cpu, window_t *window)
 void opcode_8XY6(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = 8XY6 && pc = %d\n", cpu->pc);
-	cpu->V[0xF] = (cpu->V[(cpu->opcode & 0x0F00) >> 8] & 1);
+	cpu->V[0xF] = cpu->V[(cpu->opcode & 0x0F00) >> 8] & 1;
 	cpu->V[(cpu->opcode & 0x0F00) >> 8] >>= 1;
 	cpu->pc += 2;
 	(void)window;
@@ -175,7 +175,7 @@ void opcode_8XY7(cpu_t *cpu, window_t *window)
 void opcode_8XYE(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = 8XYE && pc = %d\n", cpu->pc);
-	cpu->V[0xF] = cpu->V[(cpu->opcode & 0x0F00) >> 8] & (1 << 7);
+	cpu->V[0xF] = (cpu->V[(cpu->opcode & 0x0F00) >> 8] >> 7) & 1;
 	cpu->V[(cpu->opcode & 0x0F00) >> 8] <<= 1;
 	cpu->pc += 2;
 	(void)window;
@@ -231,12 +231,12 @@ void opcode_DXYN(cpu_t *cpu, window_t *window)
 	for (uint16_t i = 0; i < height; ++i) {
 		pixel = cpu->memory[cpu->I + i];
 		for (uint16_t j = 0; j < 8; ++j) {
-			if ((pixel & (0x80 >> j)) != 0) {
-				if (pixel_is_set(&window->framebuffer, x + j, y + i) == true) {
+			if ((pixel & (0x80 >> i)) != 0) {
+				if (pixel_is_set(&window->framebuffer, x + i, y + j) == true) {
 					cpu->V[0xF] = 1;
-					put_pixel(&window->framebuffer, x + j, y + i, sfBlack);
+					put_pixel(&window->framebuffer, x + i, y + j, sfBlack);
 				} else
-					put_pixel(&window->framebuffer, x + j, y + i, sfWhite);
+					put_pixel(&window->framebuffer, x + i, y + j, sfWhite);
 			}
 		}
 	}
