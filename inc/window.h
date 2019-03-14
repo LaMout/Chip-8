@@ -21,8 +21,8 @@ typedef struct window_s
 } window_t;
 
 bool framebuffer_initialize(framebuffer_t *framebuffer);
-void free_framebuffer(framebuffer_t *framebuffer);
-void clear_framebuffer(framebuffer_t *framebuffer);
+void framebuffer_free(framebuffer_t *framebuffer);
+void framebuffer_clear(framebuffer_t *framebuffer);
 bool pixel_is_set(framebuffer_t *framebuffer, uint8_t x, uint8_t y);
 void put_pixel(framebuffer_t *framebuffer, uint8_t x, uint8_t y, sfColor color);
 bool window_initialize(window_t *window);
