@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include "window.h"
 
-static const uint16_t WIDTH = 64;
-static const uint16_t HEIGHT = 32;
+static const uint16_t WIDTH = 1280;
+static const uint16_t HEIGHT = 720;
+static const sfVector2f SCALE = {20, 17};
 static const char *ERR_WIN = "Something went wrong when creating the window";
 
 bool window_initialize(window_t *window)
@@ -16,6 +17,7 @@ bool window_initialize(window_t *window)
 	sfRenderWindow_setFramerateLimit(window->window, 60);
 	window->texture = sfTexture_create(WIDTH, HEIGHT);
 	window->sprite = sfSprite_create();
+	sfSprite_setScale(window->sprite, SCALE);
 	if (framebuffer_initialize(&window->framebuffer) == false
 		|| !window->window || !window->texture || !window->sprite) {
 		printf("%s\n", ERR_WIN);
