@@ -13,6 +13,7 @@ bool window_initialize(window_t *window)
 	window->mode.height = HEIGHT;
 	window->mode.bitsPerPixel = 32;
 	window->window = sfRenderWindow_create(window->mode, "Chip8", sfResize | sfClose, NULL);
+	sfRenderWindow_setFramerateLimit(window->window, 60);
 	window->texture = sfTexture_create(WIDTH, HEIGHT);
 	window->sprite = sfSprite_create();
 	if (framebuffer_initialize(&window->framebuffer) == false
