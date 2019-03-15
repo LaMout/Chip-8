@@ -3,6 +3,7 @@
 #include "chip8.h"
 #include "window.h"
 #include "opcodes.h"
+#include "keys.h"
 
 static int emulate_cycle(cpu_t *cpu, window_t *window)
 {
@@ -19,9 +20,24 @@ static int emulate_cycle(cpu_t *cpu, window_t *window)
 	return EXIT_SUCCESS;
 }
 
+static void handle_events(cpu_t *cpu, window_t *window, sfEvent *event)
+{
+	while (sfRenderWindow_pollEvent(window->window, event)) {
+		if (event->type == sfEvtClosed)
+			sfRenderWindow_close(window->window);
+		if (event->type == sfEvtKeyPressed)
+			handle_keys(cpu, &event->key.code, true);
+		if (event->type == sfEvtKeyReleased)
+			handle_keys(cpu, &event->key.code, false);
+	}
+}
+
 static int emulate(cpu_t *cpu, window_t *window)
 {
+	sfEvent event;
+
 	while (sfRenderWindow_isOpen(window->window)) {
+		handle_events(cpu, window, &event);
 		emulate_cycle(cpu, window);
 		sfTexture_updateFromPixels(window->texture, window->framebuffer.pixels,
 			window->framebuffer.width, window->framebuffer.height, 0, 0);

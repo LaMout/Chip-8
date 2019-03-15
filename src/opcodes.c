@@ -15,8 +15,8 @@ void opcode_00E0(cpu_t *cpu, window_t *window)
 void opcode_00EE(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = 00EE && pc = %d\n", cpu->pc);
-	cpu->pc = cpu->stack[cpu->sp];
 	cpu->sp--;
+	cpu->pc = cpu->stack[cpu->sp];
 	(void)window;
 }
 
@@ -247,7 +247,9 @@ void opcode_DXYN(cpu_t *cpu, window_t *window)
 void opcode_EX9E(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = EX9E && pc = %d\n", cpu->pc);
-	(void)cpu;
+	if (cpu->keys[cpu->V[(cpu->opcode & 0x0F00) >> 8]] == true)
+		cpu->pc += 2;
+	cpu->pc += 2;
 	(void)window;
 }
 
@@ -255,6 +257,9 @@ void opcode_EX9E(cpu_t *cpu, window_t *window)
 void opcode_EXA1(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = EXA1 && pc = %d\n", cpu->pc);
+	if (cpu->keys[cpu->V[(cpu->opcode & 0x0F00) >> 8]] == false)
+		cpu->pc += 2;
+	cpu->pc += 2;
 	(void)cpu;
 	(void)window;
 }
@@ -272,7 +277,12 @@ void opcode_FX07(cpu_t *cpu, window_t *window)
 void opcode_FX0A(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = FX0A && pc = %d\n", cpu->pc);
-	(void)cpu;
+	for (uint8_t i = 0; i < NB_KEYS ; ++i) {
+		if (cpu->keys[i] == true) {
+			cpu->pc += 2;
+			return;
+		}
+	}
 	(void)window;
 }
 
@@ -317,8 +327,7 @@ void opcode_FX33(cpu_t *cpu, window_t *window)
 {
 	printf("DEBUG: OPCODE = FX33 && pc = %d\n", cpu->pc);
 	cpu->memory[cpu->I] = cpu->V[(cpu->opcode & 0x0F00) >> 8] / 100;
-	cpu->memory[cpu->I + 1] = (cpu->V[(cpu->opcode & 0x0F00) >> 8] / 10) % 10;
-	cpu->memory[cpu->I + 2] = (cpu->V[(cpu->opcode & 0x0F00) >> 8] % 100) % 10;
+	cpu->memory[cpu->I + 1] = (cpu->V[(cpu->opcode & 0x0F00) >> 8] % 10) % 10;
 	cpu->memory[cpu->I + 2] = (cpu->V[(cpu->opcode & 0x0F00) >> 8] % 100) % 10;
 	cpu->pc += 2;
 	(void)window;

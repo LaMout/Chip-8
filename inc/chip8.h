@@ -7,6 +7,7 @@
 #define REG_SIZE	(16)
 #define STACK_SIZE	(16)
 #define PROG_START	(512)
+#define NB_KEYS		(16)
 
 typedef struct cpu_s
 {
@@ -19,6 +20,7 @@ typedef struct cpu_s
 	uint8_t sound_timer;
 	uint16_t stack[STACK_SIZE];
 	uint8_t sp;
+	bool keys[NB_KEYS];
 } cpu_t;
 
 bool cpu_initialize(cpu_t *cpu, const char *filename);
