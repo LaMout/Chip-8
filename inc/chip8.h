@@ -21,6 +21,7 @@ typedef struct cpu_s
 	uint16_t stack[STACK_SIZE];
 	uint8_t sp;
 	bool keys[NB_KEYS];
+	bool draw;
 } cpu_t;
 
 bool cpu_initialize(cpu_t *cpu, const char *filename);
