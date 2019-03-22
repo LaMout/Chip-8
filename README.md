@@ -13,7 +13,7 @@ make
 ### Run
 
 ```sh
-./chip8 roms/<ROM_NAME>
+./chip_8 roms/<ROM_NAME>
 ```
 
 ## References
